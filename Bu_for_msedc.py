@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 import polars as pl
 from openpyxl import load_workbook, Workbook
+import datetime
 def loader():
     options = FirefoxOptions()
     options.add_argument("--headless")
@@ -75,5 +76,6 @@ for i in range(len(knumbers)):
     print(knumbers[i])
     print(bu)
     results.append([knumbers[i], bu])
-append_to_excel("bu.xlsx",results)
+ti=datetime.datetime.now()
+append_to_excel(f"bu{ti}.xlsx",results)
 driver.quit()
