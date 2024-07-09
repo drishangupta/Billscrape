@@ -76,6 +76,6 @@ for i in range(len(knumbers)):
     print(knumbers[i])
     print(bu)
     results.append([knumbers[i], bu])
-ti=datetime.datetime.now()
+ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 append_to_excel(f"bu{ti}.xlsx",results)
 driver.quit()
