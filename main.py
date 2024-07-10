@@ -8,6 +8,7 @@ from fetcher import fetcher
 from dataloader import load
 import polars as pl
 from openpyxl import load_workbook, Workbook
+import datetime
 
 def loader():
     options = FirefoxOptions()
@@ -51,7 +52,7 @@ if __name__=='__main__':
         print(e1,e2)
         results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
 
-        
-    append_to_excel("results1.xlsx", results)
+    ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
+    append_to_excel(f"results{ti}.xlsx", results)
     print(driver.title)
     driver.quit()
