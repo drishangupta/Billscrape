@@ -7,7 +7,6 @@ import time
 def fetcher(operatorn,knumber,driver):
     driver.find_element(By.CSS_SELECTOR, ".ng-input > input").send_keys(f"{operatorn}")
 
-    #input_box.send_keys(Keys.RETURN)
     body = driver.find_element(By.TAG_NAME,'body')
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     #ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
@@ -17,6 +16,10 @@ def fetcher(operatorn,knumber,driver):
     # driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
 
     driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-invalid").send_keys(text_to_type)
+    
+    number="9876348761"
+    driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-star-inserted").send_keys(number)
+    
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     time.sleep(1.5)
     try:
@@ -31,5 +34,10 @@ def fetcher(operatorn,knumber,driver):
         #print(element2.text)
         return [element1.text,element2.text]
     except:
-        return ["No Dues",0]
-        
+        WebDriverWait(driver, 2).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")) )
+        element1=driver.find_element(By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")
+        if(element1.text==" No Bill Found"):
+            return ["No Dues",0]
+        else
+            return ["Error","Error"]

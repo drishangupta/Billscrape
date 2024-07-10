@@ -13,7 +13,7 @@ import datetime
 
 def loader():
     options = FirefoxOptions()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.page_load_strategy = 'normal'
 
     driver = webdriver.Firefox(options=options)
