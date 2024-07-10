@@ -43,29 +43,35 @@ def butake(driver,knumber,i):
     
     text_to_type = f"{knumber}"
     WebDriverWait(driver, timeout=2).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#consumerNo")))
-    time.sleep(1)
+    time.sleep(3)
     driver.find_element(By.CSS_SELECTOR, "#consumerNo").send_keys(Keys.CONTROL,"a")
     driver.find_element(By.CSS_SELECTOR, "#consumerNo").send_keys(Keys.BACK_SPACE)
     
     driver.find_element(By.CSS_SELECTOR, "#consumerNo").send_keys(text_to_type)
-    time.sleep(1)
+    time.sleep(2)
     ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
     if(i==0):
         ActionChains(driver).move_to_element(body).send_keys(Keys.SPACE).perform()
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
-    time.sleep(1)
+    time.sleep(3)
     WebDriverWait(driver,timeout=2).until(EC.number_of_windows_to_be(2))
     for window_handle in driver.window_handles:
         if window_handle != original_window:
             driver.switch_to.window(window_handle)
             break
-    WebDriverWait(driver,2).until(EC.visibility_of_element_located((By.XPATH,"//*[@id=\"lblBu\"]")))
-    bu=driver.find_element(By.XPATH,"//*[@id=\"lblBu\"]")
-    bu=bu.text
-    driver.close()
-    driver.switch_to.window(original_window)
+    try:
+        WebDriverWait(driver,2).until(EC.visibility_of_element_located((By.XPATH,"//*[@id=\"lblBu\"]")))
+        bu=driver.find_element(By.XPATH,"//*[@id=\"lblBu\"]")
+        bu=bu.text
+        driver.close()
+        driver.switch_to.window(original_window)
 
-    return bu
+        return bu
+    except:
+        driver.close()
+        driver.switch_to.window(original_window)
+
+        return 0
     
 df = pl.read_excel(source="C://Users//drish//Downloads//MSEDCTEST.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
 knumbers=df["Mobile"]
