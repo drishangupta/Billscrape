@@ -17,13 +17,16 @@ def fetchert(operatorn,knumber,center,driver):
     
     place=center
     ff=driver.find_element(By.XPATH,"/html/body/section/mbk-root/section/mbk-home/div/mbk-home-page/div[2]/section/div/div/div/div/div[2]/mbk-recharge/section/div/mbk-electricity/mbk-biller/div[1]/form/div/div/div[2]/mbk-biller-field/div/div/div/ng-select/div/div/div[2]/input")
-    ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     ff.send_keys(place)
-    text_to_type = f"{knumber}"
+    ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
+    #ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
+    text_to_type = knumber
     # driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
-
+    #ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
+    WebDriverWait(driver, 2).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched")) )
     driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched").send_keys(text_to_type)
-    
+    #driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
     
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     time.sleep(1.0)

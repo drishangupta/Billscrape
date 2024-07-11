@@ -95,7 +95,7 @@ if __name__=='__main__':
         try:
          
             driver.get("https://www.mobikwik.com/electricity-bill-payment")
-            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".whitebg.hmbnr.posrel")))
+            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
             
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
