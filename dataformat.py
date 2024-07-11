@@ -20,9 +20,9 @@ def data_gather():
         "Tata Power": "tata power - mumbai",
         "TP Central Odisha Distribution Ltd": "tp central",
         "Uttarakhand Power Corporation Limited": "uttarakhand",
-        "WBSEDCL": "west bengal state"
-        "Torrent Power - AHMEDABAD": "Torrent Power AHMEDABAD",
-        "Torrent Power - SURAT": "Torrent Power SURAT"
+        "WBSEDCL": "west bengal state",
+        "Torrent Power - AHMEDABAD" : "Torrent Power AHMEDABAD",
+        "Torrent Power - SURAT" : "Torrent Power SURAT"
         
     }
 

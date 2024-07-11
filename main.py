@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from fetcher import fetcher
 from fetchermsedc import fetcherms
 from fetcherwb import fetcherwb
+from fetchertorrentpow import fetchert
 from dataloader import load
 import polars as pl
 from openpyxl import load_workbook, Workbook
@@ -99,7 +100,12 @@ if __name__=='__main__':
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             elif(df["Provider"][i]=="Torrent Power AHMEDABAD" or df["Provider"][i]=="Torrent Power SURAT"):
-                pattern=r"\s(\w+)$"
+                last_word = df["Provider"][i].split()[-1]
+                operator=df.item(i,"Provider")
+                operator=operator.replace(last_word,"")
+                operator.rstrip()
+                e1,e2=fetchert(operator,df["Mobile"][i],last_word,driver)
+                
             elif(df["Provider"][i]=="west bengal state"):
                 e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             else:    
