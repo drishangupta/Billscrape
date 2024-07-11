@@ -2,9 +2,9 @@ import polars as pl
 import re
 
 def data_gather():
-    d1 = pl.read_excel(source="C://Users//drish//Downloads//delhi check.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
+    d1 = pl.read_excel(source="C://Users//drish//Downloads//Transaction_History (1).xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
     dc = d1["Provider"]
-    dbu=d1["Column1"]
+    dbu=d1["BU"]
     print
 
     pattern = r"\s-([^-]+)$"

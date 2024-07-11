@@ -11,42 +11,44 @@ import polars as pl
 from openpyxl import load_workbook, Workbook
 import datetime
 from selenium.webdriver.common.proxy import Proxy , ProxyType
+from proxy_fetch import get_free_proxies
 def loader(myProxy):
     options = FirefoxOptions()
     #options.add_argument("--headless")
     options.page_load_strategy = 'normal'
-    proxy = Proxy({
-    'proxyType': ProxyType.MANUAL,
+    
+    webdriver.DesiredCapabilities.FIREFOX['proxy']={
     'httpProxy': myProxy,
     'sslProxy': myProxy,
-    'noProxy': ''})
-    
-    options.proxy = proxy
-
+    "proxyType":'autodetect'
+    } 
+    #driver = webdriver.Firefox(options=options)
     driver = webdriver.Firefox(options=options)
     return driver
 
-def get_free_proxies():
-    driver = webdriver.Firefox()
-    driver.get('https://sslproxies.org')
+# def get_free_proxies():
+#     options = FirefoxOptions()
+#     options.page_load_strategy = "normal"
+#     driver = webdriver.Firefox(options=options)
+#     driver.get('https://sslproxies.org')
 
-    table = driver.find_element(By.TAG_NAME, 'table')
-    thead = table.find_element(By.TAG_NAME, 'thead').find_elements(By.TAG_NAME, 'th')
-    tbody = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
+#     table = driver.find_element(By.TAG_NAME, 'table')
+#     thead = table.find_element(By.TAG_NAME, 'thead').find_elements(By.TAG_NAME, 'th')
+#     tbody = table.find_element(By.TAG_NAME, 'tbody').find_elements(By.TAG_NAME, 'tr')
 
-    headers = []
-    for th in thead:
-        headers.append(th.text.strip())
+#     headers = []
+#     for th in thead:
+#         headers.append(th.text.strip())
 
-    proxies = []
-    for tr in tbody:
-        proxy_data = {}
-        tds = tr.find_elements(By.TAG_NAME, 'td')
-        for i in range(len(headers)):
-            proxy_data[headers[i]] = tds[i].text.strip()
-        proxies.append(proxy_data)
-    
-    return proxies
+#     proxies = []
+#     for tr in tbody:
+#         proxy_data = {}
+#         tds = tr.find_elements(By.TAG_NAME, 'td')
+#         for i in range(len(headers)):
+#             proxy_data[headers[i]] = tds[i].text.strip()
+#         proxies.append(proxy_data)
+#     driver.quit()
+#     return proxies
 
 def append_to_excel(filename, data):
     try:
@@ -75,7 +77,7 @@ if __name__=='__main__':
     
     iteration_count=0
     
-    driver = loader(proxies[proxy_index])
+    driver = loader(proxies[proxy_index]["IP Address"])
     
     for i in range(len(df)):
         current_time=time.time()
@@ -83,19 +85,32 @@ if __name__=='__main__':
             proxies=get_free_proxies()
             proxy_index=0
             last_proxy_update_time = current_time
-        if iteration_count >= 5:
+        if iteration_count >= 10:
             driver.quit()
             proxy_index = (proxy_index + 1)%len(proxies)
+            driver = loader(proxies[proxy_index]["IP Address"])
+            iteration_count = 0
+        try:
+         
+            driver.get("https://www.mobikwik.com/electricity-bill-payment")
+            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
             
-        driver.get("https://www.mobikwik.com/electricity-bill-payment")
-        WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
-        
-        if(df["Provider"][i]=="mahara"):
-            e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
-        else:    
-            e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
-        print(df["Provider"],df["Mobile"],e1,e2)
-        results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
+            if(df["Provider"][i]=="mahara"):
+                e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
+            else:    
+                e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
+            
+            print(df["Provider"][i],df["Mobile"][i],e1,e2)
+            results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
+            
+            iteration_count = iteration_count + 1
+        except Exception as e:
+            print(f"Error With Proxy {proxies[proxy_index]} : {e}")
+            
+            driver.quit()
+            proxy_index = (proxy_index + 1) % len(proxies)
+            driver = loader(proxies[proxy_index]["IP Address"])
+            iteration_count = 0
 
     ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
     append_to_excel(f"results{ti}.xlsx", results)
