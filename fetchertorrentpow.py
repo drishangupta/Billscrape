@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 import time
 def fetchert(operatorn,knumber,center,driver):
+    operatorn=operatorn.rstrip()
     driver.find_element(By.CSS_SELECTOR, ".ng-input > input").send_keys(f"{operatorn}")
 
     #input_box.send_keys(Keys.RETURN)
@@ -21,7 +22,7 @@ def fetchert(operatorn,knumber,center,driver):
     text_to_type = f"{knumber}"
     # driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
 
-    driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-invalid").send_keys(text_to_type)
+    driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched").send_keys(text_to_type)
     
     
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()

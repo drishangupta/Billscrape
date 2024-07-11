@@ -95,7 +95,7 @@ if __name__=='__main__':
         try:
          
             driver.get("https://www.mobikwik.com/electricity-bill-payment")
-            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
+            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".whitebg.hmbnr.posrel")))
             
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
@@ -105,7 +105,7 @@ if __name__=='__main__':
                 operator=operator.replace(last_word,"")
                 operator.rstrip()
                 e1,e2=fetchert(operator,df["Mobile"][i],last_word,driver)
-                
+                print(operator)
             elif(df["Provider"][i]=="west bengal state"):
                 e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             else:    
@@ -116,10 +116,11 @@ if __name__=='__main__':
             
             iteration_count = iteration_count + 1
         except Exception as e:
+            
             print(f"Error With Proxy {proxies[proxy_index]} : {e}")
             
             driver.quit()
-            proxies=get_free_proxies()
+            #proxies=get_free_proxies()
             proxy_index = (proxy_index + 1) % len(proxies)
             driver = loader(proxies[proxy_index]["IP Address"])
             iteration_count = 0
