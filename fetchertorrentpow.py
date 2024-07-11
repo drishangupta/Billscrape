@@ -22,12 +22,13 @@ def fetchert(operatorn,knumber,center,driver):
     #ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     text_to_type = knumber
     # driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
-    #ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
-    WebDriverWait(driver, 2).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched")) )
-    driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched").send_keys(text_to_type)
-    #driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
-    
+    ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
+    # element=WebDriverWait(driver, 1).until(
+    #         EC.visibility_of_element_located((By.CSS_SELECTOR, ".form-input.tx48.ng-pristine.ng-invalid.ng-touched")) )
+    # element.send_keys(text_to_type)
+    driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
+    # Optionally, you can trigger an event to simulate input change
+    driver.execute_script("document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));")
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     time.sleep(1.0)
     try:
