@@ -7,11 +7,6 @@ def data_gather():
     dbu=d1["BU"]
     print
 
-    pattern = r"\s-([^-]+)$"
-    replacement = ""
-
-    dc = dc.str.replace_all(pattern, replacement)
-
     pattern_replacement_dict = {
         "APDCL \(Non-RAPDR\)": "Assam",
         "BSES Rajdhani": "bses rajdhani pow",
@@ -26,10 +21,20 @@ def data_gather():
         "TP Central Odisha Distribution Ltd": "tp central",
         "Uttarakhand Power Corporation Limited": "uttarakhand",
         "WBSEDCL": "west bengal state"
+        "Torrent Power - AHMEDABAD": "Torrent Power AHMEDABAD",
+        "Torrent Power - SURAT": "Torrent Power SURAT"
+        
     }
 
     for pattern, replacement in pattern_replacement_dict.items():
         dc = dc.str.replace_all(pattern, replacement)
+        
+    pattern = r"\s-([^-]+)$"
+    replacement = ""
+
+    dc = dc.str.replace_all(pattern, replacement)
+
+    
 
     d1.replace_column(0,dc)
     d1.replace_column(3,dbu)

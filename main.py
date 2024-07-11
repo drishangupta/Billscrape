@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from fetcher import fetcher
 from fetchermsedc import fetcherms
+from fetcherwb import fetcherwb
 from dataloader import load
 import polars as pl
 from openpyxl import load_workbook, Workbook
@@ -97,6 +98,10 @@ if __name__=='__main__':
             
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
+            elif(df["Provider"][i]=="Torrent Power AHMEDABAD" or df["Provider"][i]=="Torrent Power SURAT"):
+                pattern=r"\s(\w+)$"
+            elif(df["Provider"][i]=="west bengal state"):
+                e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             else:    
                 e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
             

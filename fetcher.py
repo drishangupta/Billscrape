@@ -31,11 +31,9 @@ def fetcher(operatorn,knumber,driver):
         #print(element2.text)
         return [element1.text,element2.text]
     except:
-        WebDriverWait(driver, 2).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")) )
-        element1=driver.find_element(By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")
-        #print(element1.text)
-        if(element1.text=="No Bill Found"):
+        EC.visibility_of_element_located((By.CSS_SELECTOR, ".ft15.smtop15.smbottom30.tcenter")) )
+        element1=driver.find_element(By.CSS_SELECTOR, ".ft15.smtop15.smbottom30.tcenter")
+        if(element1.text == "Payment received for the billing period - no bill due"):
             return ["No Dues",0]
         else:
             return ["Error","Error"]

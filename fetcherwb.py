@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.support import expected_conditions as EC
 import time
-def fetcher(operatorn,knumber,driver):
+def fetcherwb(operatorn,knumber,driver):
     driver.find_element(By.CSS_SELECTOR, ".ng-input > input").send_keys(f"{operatorn}")
 
     body = driver.find_element(By.TAG_NAME,'body')
