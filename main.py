@@ -108,6 +108,7 @@ if __name__=='__main__':
             print(f"Error With Proxy {proxies[proxy_index]} : {e}")
             
             driver.quit()
+            proxies=get_free_proxies()
             proxy_index = (proxy_index + 1) % len(proxies)
             driver = loader(proxies[proxy_index]["IP Address"])
             iteration_count = 0
