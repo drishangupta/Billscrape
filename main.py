@@ -10,8 +10,8 @@ from dataloader import load
 import polars as pl
 from openpyxl import load_workbook, Workbook
 import datetime
-
-def loader():
+from selenium.webdriver.common.proxy import Proxy , ProxyType
+def loader(myProxy):
     options = FirefoxOptions()
     #options.add_argument("--headless")
     options.page_load_strategy = 'normal'
@@ -24,15 +24,10 @@ def loader():
     options.proxy = proxy
 
     driver = webdriver.Firefox(options=options)
-    driver.get("https://www.mobikwik.com/electricity-bill-payment")
-
-    WebDriverWait(driver, timeout=2).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
-    driver.find_element(By.XPATH,"//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")
-    # input_box = WebDriverWait(driver, 2).until(
-    #     EC.visibility_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")) )
     return driver
 
-def get_free_proxies(driver):
+def get_free_proxies():
+    driver = webdriver.Firefox()
     driver.get('https://sslproxies.org')
 
     table = driver.find_element(By.TAG_NAME, 'table')
@@ -67,14 +62,31 @@ def append_to_excel(filename, data):
 
     workbook.save(filename)
 
-if __name__=='__main__':    
-    driver = loader()
+if __name__=='__main__':  
+    
     dc,dn,dbu=load()
     df=pl.DataFrame([dc,dn,dbu])
     #print(df)
+    proxies=get_free_proxies()
+    proxy_index=0
+    last_proxy_update_time=time.time()
+    
     results = []
-
+    
+    iteration_count=0
+    
+    driver = loader(proxies[proxy_index])
+    
     for i in range(len(df)):
+        current_time=time.time()
+        if current_time - last_proxy_update_time >=600:
+            proxies=get_free_proxies()
+            proxy_index=0
+            last_proxy_update_time = current_time
+        if iteration_count >= 5:
+            driver.quit()
+            proxy_index = (proxy_index + 1)%len(proxies)
+            
         driver.get("https://www.mobikwik.com/electricity-bill-payment")
         WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
         
@@ -82,7 +94,7 @@ if __name__=='__main__':
             e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
         else:    
             e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
-        print(e1,e2)
+        print(df["Provider"],df["Mobile"],e1,e2)
         results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
 
     ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
