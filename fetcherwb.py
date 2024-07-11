@@ -39,5 +39,5 @@ def fetcher(operatorn,knumber,driver):
         element1=driver.find_element(By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")
         if(element1.text==" No Bill Found"):
             return ["No Dues",0]
-        else
+        else:
             return ["Error","Error"]

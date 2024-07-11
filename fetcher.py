@@ -18,7 +18,7 @@ def fetcher(operatorn,knumber,driver):
 
     driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-invalid").send_keys(text_to_type)
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
-    time.sleep(1.5)
+    time.sleep(1.0)
     try:
         WebDriverWait(driver, 2).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")) )
@@ -31,5 +31,12 @@ def fetcher(operatorn,knumber,driver):
         #print(element2.text)
         return [element1.text,element2.text]
     except:
-        return ["No Dues",0]
+        WebDriverWait(driver, 2).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")) )
+        element1=driver.find_element(By.CSS_SELECTOR, ".fw600.ft18.ng-star-inserted")
+        #print(element1.text)
+        if(element1.text=="No Bill Found"):
+            return ["No Dues",0]
+        else:
+            return ["Error","Error"]
         

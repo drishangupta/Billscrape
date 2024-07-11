@@ -43,7 +43,7 @@ def butake(driver,knumber,i):
     
     text_to_type = f"{knumber}"
     WebDriverWait(driver, timeout=2).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#consumerNo")))
-    time.sleep(3)
+    time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, "#consumerNo").send_keys(Keys.CONTROL,"a")
     driver.find_element(By.CSS_SELECTOR, "#consumerNo").send_keys(Keys.BACK_SPACE)
     
@@ -53,7 +53,7 @@ def butake(driver,knumber,i):
     if(i==0):
         ActionChains(driver).move_to_element(body).send_keys(Keys.SPACE).perform()
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
-    time.sleep(3)
+    time.sleep(2)
     WebDriverWait(driver,timeout=2).until(EC.number_of_windows_to_be(2))
     for window_handle in driver.window_handles:
         if window_handle != original_window:
