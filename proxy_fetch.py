@@ -25,5 +25,5 @@ def get_free_proxies():
         proxies.append(proxy_data)
     driver.quit()
     return proxies
-proxies=get_free_proxies()
-print(proxies[0]["IP Address"])
+
+    

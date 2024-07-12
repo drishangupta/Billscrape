@@ -17,12 +17,13 @@ from proxy_fetch import get_free_proxies
 def loader(myProxy):
     options = FirefoxOptions()
     #options.add_argument("--headless")
+    #options.add_argument("--proxy-server=%s"%myProxy)
     options.page_load_strategy = 'normal'
-    
+    print(myProxy)
     webdriver.DesiredCapabilities.FIREFOX['proxy']={
     'httpProxy': myProxy,
     'sslProxy': myProxy,
-    "proxyType":'autodetect'
+    "proxyType":'manual'
     } 
     #driver = webdriver.Firefox(options=options)
     driver = webdriver.Firefox(options=options)
@@ -110,7 +111,7 @@ if __name__=='__main__':
                 e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             else:    
                 e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
-            
+            print(proxies[proxy_index]["IP Address"])
             print(df["Provider"][i],df["Mobile"][i],e1,e2)
             results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
             
