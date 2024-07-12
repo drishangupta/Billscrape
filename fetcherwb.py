@@ -16,10 +16,11 @@ def fetcherwb(operatorn,knumber,driver):
     # driver.execute_script(f"document.activeElement.value += '{text_to_type}';")
 
     driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-invalid").send_keys(text_to_type)
-    
+    ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
     number="9876348761"
-    driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-star-inserted").send_keys(number)
-    
+    #driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-star-inserted").send_keys(number)
+    driver.execute_script(f"document.activeElement.value += '{number}';")
+    driver.execute_script("document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));")
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     time.sleep(1.5)
     try:
