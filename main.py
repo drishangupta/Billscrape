@@ -13,6 +13,7 @@ import polars as pl
 from openpyxl import load_workbook, Workbook
 import datetime
 from selenium.webdriver.common.proxy import Proxy , ProxyType
+import ctypes
 # from proxy_fetch import get_free_proxies
 def loader():
     options = FirefoxOptions()
@@ -80,7 +81,7 @@ if __name__=='__main__':
     
     results = []
     
-    # iteration_count=0
+    iteration_count=0
     
     driver = loader()
     
@@ -94,11 +95,22 @@ if __name__=='__main__':
         #     driver.quit()
         #     proxy_index = (proxy_index + 1)%len(proxies)
         #     driver = loader(proxies[proxy_index]["IP Address"])
-        #     iteration_count = 0
+        #     iteration_count = 27
+        if iteration_count >=50:
+            WS_EX_TOPMOST = 0x40000
+            windowTitle = "Refresh VPN"
+            message = "Click Yes if you have refreshed VPN"
+
+            # display a message box; execution will stop here until user acknowledges
+            ctypes.windll.user32.MessageBoxExW(None, message, windowTitle, WS_EX_TOPMOST)
+
+            print("VPN Refreshed")
+            iteration_count = 0
+
         try:
          
             driver.get("https://www.mobikwik.com/electricity-bill-payment")
-            WebDriverWait(driver, timeout=2.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
+            WebDriverWait(driver, timeout=15).until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"op\"]/mbk-biller-field/div/div/div[1]/ng-select")))
             
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
@@ -117,7 +129,7 @@ if __name__=='__main__':
             print(df["Provider"][i],df["Mobile"][i],e1,e2)
             results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
             
-            #iteration_count = iteration_count + 1
+            iteration_count = iteration_count + 1
         except Exception as e:
             
             print(f"Error {e}")
@@ -126,7 +138,7 @@ if __name__=='__main__':
             #proxies=get_free_proxies()
             # proxy_index = (proxy_index + 1) % len(proxies)
             # driver = loader(proxies[proxy_index]["IP Address"])
-            # iteration_count = 0
+            iteration_count = iteration_count + 1
             results.append([df["Provider"][i], df["Mobile"][i], "ERROR",e])
     ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
     append_to_excel(f"results{ti}.xlsx", results)
