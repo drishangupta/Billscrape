@@ -49,5 +49,4 @@ def fetchert(operatorn,knumber,center,driver):
             return ["No Dues",0]
         else:
             return ["Error","Error"]
-    finally:
-        return["Big Error","Big Error"]
+    

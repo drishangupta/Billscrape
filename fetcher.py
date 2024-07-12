@@ -37,6 +37,6 @@ def fetcher(operatorn,knumber,driver):
             return ["No Dues",0]
         else:
             return ["Error","Error"]
-    finally:
-        return["Big Error","Big Error"]
+    
+        
         
