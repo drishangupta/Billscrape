@@ -13,20 +13,20 @@ import polars as pl
 from openpyxl import load_workbook, Workbook
 import datetime
 from selenium.webdriver.common.proxy import Proxy , ProxyType
-from proxy_fetch import get_free_proxies
-def loader(myProxy):
+# from proxy_fetch import get_free_proxies
+def loader():
     options = FirefoxOptions()
     #options.add_argument("--headless")
     #options.add_argument("--proxy-server=%s"%myProxy)
     options.page_load_strategy = 'normal'
-    print(myProxy)
-    webdriver.DesiredCapabilities.FIREFOX['proxy']={
-    'httpProxy': myProxy,
-    'sslProxy': myProxy,
-    "socksProxy": myProxy,
-    "socksVersion":4,
-    "proxyType":'manual'
-    } 
+    
+    # webdriver.DesiredCapabilities.FIREFOX['proxy']={
+    # 'httpProxy': myProxy,
+    # 'sslProxy': myProxy,
+    # "socksProxy": myProxy,
+    # "socksVersion":4,
+    # "proxyType":'manual'
+    # } 
     #driver = webdriver.Firefox(options=options)
     driver = webdriver.Firefox(options=options)
     return driver
@@ -74,27 +74,27 @@ if __name__=='__main__':
     dc,dn,dbu=load()
     df=pl.DataFrame([dc,dn,dbu])
     #print(df)
-    proxies=get_free_proxies()
-    proxy_index=0
-    last_proxy_update_time=time.time()
+    #proxies=get_free_proxies()
+    # proxy_index=0
+    # last_proxy_update_time=time.time()
     
     results = []
     
-    iteration_count=0
+    # iteration_count=0
     
-    driver = loader(proxies[proxy_index]["IP Address"])
+    driver = loader()
     
     for i in range(len(df)):
-        current_time=time.time()
-        if current_time - last_proxy_update_time >=600:
-            proxies=get_free_proxies()
-            proxy_index=0
-            last_proxy_update_time = current_time
-        if iteration_count >= 10:
-            driver.quit()
-            proxy_index = (proxy_index + 1)%len(proxies)
-            driver = loader(proxies[proxy_index]["IP Address"])
-            iteration_count = 0
+        # current_time=time.time()
+        # if current_time - last_proxy_update_time >=600:
+        #     proxies=get_free_proxies()
+        #     proxy_index=0
+        #     last_proxy_update_time = current_time
+        # if iteration_count >= 10:
+        #     driver.quit()
+        #     proxy_index = (proxy_index + 1)%len(proxies)
+        #     driver = loader(proxies[proxy_index]["IP Address"])
+        #     iteration_count = 0
         try:
          
             driver.get("https://www.mobikwik.com/electricity-bill-payment")
@@ -113,21 +113,21 @@ if __name__=='__main__':
                 e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
             else:    
                 e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
-            print(proxies[proxy_index]["IP Address"])
+            # print(proxies[proxy_index]["IP Address"])
             print(df["Provider"][i],df["Mobile"][i],e1,e2)
             results.append([df["Provider"][i], df["Mobile"][i], e1, e2])
             
-            iteration_count = iteration_count + 1
+            #iteration_count = iteration_count + 1
         except Exception as e:
             
-            print(f"Error With Proxy {proxies[proxy_index]} : {e}")
+            print(f"Error {e}")
             
             driver.quit()
             #proxies=get_free_proxies()
-            proxy_index = (proxy_index + 1) % len(proxies)
-            driver = loader(proxies[proxy_index]["IP Address"])
-            iteration_count = 0
-
+            # proxy_index = (proxy_index + 1) % len(proxies)
+            # driver = loader(proxies[proxy_index]["IP Address"])
+            # iteration_count = 0
+            results.append([df["Provider"][i], df["Mobile"][i], "ERROR",e])
     ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
     append_to_excel(f"results{ti}.xlsx", results)
     print(driver.title)
