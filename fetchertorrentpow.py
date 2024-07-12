@@ -32,18 +32,18 @@ def fetchert(operatorn,knumber,center,driver):
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
     time.sleep(1.0)
     try:
-        WebDriverWait(driver, 2).until(
+        WebDriverWait(driver, 3).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")) )
         element1=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")
         #print(element1.text)
 
-        WebDriverWait(driver, 2).until(
+        WebDriverWait(driver, 3).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]" )))
         element2=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]")
         #print(element2.text)
         return [element1.text,element2.text]
     except:
-        WebDriverWait(driver,2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".ft15.smtop15.smbottom30.tcenter"))) 
+        WebDriverWait(driver,3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".ft15.smtop15.smbottom30.tcenter"))) 
         element1=driver.find_element(By.CSS_SELECTOR, ".ft15.smtop15.smbottom30.tcenter")
         if(element1.text == "Payment received for the billing period - no bill due"):
             return ["No Dues",0]

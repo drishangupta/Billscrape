@@ -114,6 +114,7 @@ if __name__=='__main__':
             
             if(df["Provider"][i]=="mahara"):
                 e1,e2=fetcherms(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
+            
             elif(df["Provider"][i]=="Torrent Power AHMEDABAD" or df["Provider"][i]=="Torrent Power SURAT"):
                 last_word = df["Provider"][i].split()[-1]
                 operator=df.item(i,"Provider")
@@ -121,8 +122,10 @@ if __name__=='__main__':
                 operator.rstrip()
                 e1,e2=fetchert(operator,df["Mobile"][i],last_word,driver)
                 print(operator)
-            elif(df["Provider"][i]=="west bengal state"):
-                e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],df["BU"][i],driver)
+            
+            elif(df["Provider"][i]=="west bengal state" or df["Provider"][i]=="dakshin har" or df["Provider"][i]=="UHBVN"):
+                e1,e2=fetcherwb(df["Provider"][i],df["Mobile"][i],driver)
+            
             else:    
                 e1,e2=fetcher(df["Provider"][i],df["Mobile"][i],driver)
             # print(proxies[proxy_index]["IP Address"])
@@ -139,7 +142,9 @@ if __name__=='__main__':
             # proxy_index = (proxy_index + 1) % len(proxies)
             # driver = loader(proxies[proxy_index]["IP Address"])
             iteration_count = iteration_count + 1
-            results.append([df["Provider"][i], df["Mobile"][i], "ERROR",e])
+            results.append([df["Provider"][i], df["Mobile"][i], "Main ERROR","Main ERROR"])
+            driver=loader()
+            continue
     ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
     append_to_excel(f"results{ti}.xlsx", results)
     print(driver.title)

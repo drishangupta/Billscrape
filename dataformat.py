@@ -22,7 +22,8 @@ def data_gather():
         "Uttarakhand Power Corporation Limited": "uttarakhand",
         "WBSEDCL": "west bengal state",
         "Torrent Power - AHMEDABAD" : "Torrent Power AHMEDABAD",
-        "Torrent Power - SURAT" : "Torrent Power SURAT"
+        "Torrent Power - SURAT" : "Torrent Power SURAT",
+        "DGVCL":"dakshin har"
         
     }
 
