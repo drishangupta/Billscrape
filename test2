@@ -1,0 +1,5 @@
+from seleniumbase import SB
+
+with SB(uc=True, proxy="45.12.31.14") as sb:
+    sb.driver.get("https://whatismyip.com")
+    sb.sleep(10)

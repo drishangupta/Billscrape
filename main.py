@@ -23,6 +23,8 @@ def loader(myProxy):
     webdriver.DesiredCapabilities.FIREFOX['proxy']={
     'httpProxy': myProxy,
     'sslProxy': myProxy,
+    "socksProxy": myProxy,
+    "socksVersion":4,
     "proxyType":'manual'
     } 
     #driver = webdriver.Firefox(options=options)

@@ -4,7 +4,7 @@ import time
 proxies=get_free_proxies()
 for i in range(len(proxies)):
     
-        driver =  loader("102.38.31.8:9999")
+        driver =  loader("45.12.31.14")
         driver.get("https://httpbin.io/ip")
         time.sleep(10)
         driver.quit()
