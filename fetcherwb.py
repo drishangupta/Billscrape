@@ -22,14 +22,14 @@ def fetcherwb(operatorn,knumber,driver):
     driver.execute_script(f"document.activeElement.value += '{number}';")
     driver.execute_script("document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));")
     ActionChains(driver).move_to_element(body).send_keys(Keys.ENTER).perform()
-    time.sleep(1.5)
+    time.sleep(3)
     try:
-        WebDriverWait(driver, 3).until(
+        WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")) )
         element1=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")
         #print(element1.text)
 
-        WebDriverWait(driver, 3).until(
+        WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]" )))
         element2=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]")
         #print(element2.text)
