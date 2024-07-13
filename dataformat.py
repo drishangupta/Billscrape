@@ -2,10 +2,9 @@ import polars as pl
 import re
 
 def data_gather():
-    d1 = pl.read_excel(source="C://Users//drish//Downloads//Transaction_History (1).xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
+    d1 = pl.read_excel(source="C://Users//drish//Downloads//Transaction_History (1).xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String,"BU":pl.Int32})
     dc = d1["Provider"]
     dbu=d1["BU"]
-    print
 
     pattern_replacement_dict = {
         "APDCL \(Non-RAPDR\)": "Assam",
@@ -34,10 +33,9 @@ def data_gather():
     replacement = ""
 
     dc = dc.str.replace_all(pattern, replacement)
-
     
 
     d1.replace_column(0,dc)
     d1.replace_column(3,dbu)
-    d1.write_excel(include_header=True,)
+    d1.write_excel(include_header=True,autofit=True)
 data_gather()
