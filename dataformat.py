@@ -22,7 +22,9 @@ def data_gather():
         "WBSEDCL": "west bengal state",
         "Torrent Power - AHMEDABAD" : "Torrent Power AHMEDABAD",
         "Torrent Power - SURAT" : "Torrent Power SURAT",
-        "DGVCL":"dakshin har"
+        "Dakshin Haryana Bijli Vitran Nigam \(DHBVN\)":"dakshin har",
+        "UPCL":"uttarakhand"
+        
         
     }
 
