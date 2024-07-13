@@ -108,7 +108,7 @@ if __name__=='__main__':
             iteration_count = 0
         if iteration_count >=20:
             append_to_excel(f"results{ti}.xlsx", results)
-            results[]
+            results=[]
 
 
         try:
