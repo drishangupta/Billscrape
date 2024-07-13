@@ -73,7 +73,7 @@ def butake(driver,knumber,i):
 
         return 0
     
-df = pl.read_excel(source="C://Users//drish//Downloads//MSEDCTEST.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
+df = pl.read_excel(source="MSEDCTEST.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String})
 knumbers=df["Mobile"]
 driver=loader()
 results = []
