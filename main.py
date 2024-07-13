@@ -71,7 +71,7 @@ def append_to_excel(filename, data):
     workbook.save(filename)
 
 if __name__=='__main__':  
-    
+    ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S") 
     dc,dn,dbu=load()
     df=pl.DataFrame([dc,dn,dbu])
     #print(df)
@@ -106,6 +106,9 @@ if __name__=='__main__':
 
             print("VPN Refreshed")
             iteration_count = 0
+        if iteration_count >=20:
+            append_to_excel(f"results{ti}.xlsx", results)
+
 
         try:
          
@@ -137,15 +140,14 @@ if __name__=='__main__':
             
             print(f"Error {e}")
             
-            driver.quit()
+            #driver.quit()
             #proxies=get_free_proxies()
             # proxy_index = (proxy_index + 1) % len(proxies)
             # driver = loader(proxies[proxy_index]["IP Address"])
             iteration_count = iteration_count + 1
             results.append([df["Provider"][i], df["Mobile"][i], "Main ERROR","Main ERROR"])
-            driver=loader()
-            continue
-    ti = datetime.datetime.now().strftime("%Y%m%d%H%M%S")   
+            #driver=loader()
+            continue   
     append_to_excel(f"results{ti}.xlsx", results)
     print(driver.title)
     driver.quit()
