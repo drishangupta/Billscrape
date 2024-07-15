@@ -18,6 +18,7 @@ def fetcherms(operatorn,knumber,bu,driver):
     driver.find_element(By.CSS_SELECTOR, ".form-input.tx48.ng-untouched.ng-pristine.ng-invalid").send_keys(text_to_type)
     
     BU=f"{bu}"
+    ActionChains(driver).move_to_element(body).send_keys(Keys.TAB).perform()
     driver.execute_script(f"document.activeElement.value += '{BU}';")
     # Optionally, you can trigger an event to simulate input change
     driver.execute_script("document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));")
