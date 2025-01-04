@@ -24,10 +24,11 @@ def fetcher(operatorn,knumber,driver):
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")) )
         element1=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]")
         #print(element1.text)
-
+        #/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[1]/div[2]
+        #/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[4]/div[2]
         WebDriverWait(driver, 3).until(
-            EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]" )))
-        element2=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[2]/div[2]")
+            EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[4]/div[2]" )))
+        element2=driver.find_element(By.XPATH,"/html/body/div[3]/div[2]/div/mat-dialog-container/mbk-view-payment/section/div/div[3]/div/div[4]/div[2]")
         #print(element2.text)
         return [element1.text,element2.text]
     except:
