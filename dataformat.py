@@ -2,7 +2,7 @@ import polars as pl
 import re
 
 def data_gather():
-    d1 = pl.read_excel(source="C://Users//drish//Downloads//BILL CHECK.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String,"BU":pl.Int32})
+    d1 = pl.read_excel(source="BILL CHECK.xlsx",sheet_name="Sheet1",schema_overrides={"Mobile":pl.String,"BU":pl.Int32})
     dc = d1["Provider"]
     dbu=d1["BU"]
 
@@ -16,11 +16,11 @@ def data_gather():
         "MSEDC": "mahara",
         "Paschim Gujarat Vij Company Limited \(PGVCL\)": "paschim gujarat",
         "Paschim Kshetra Vitaran": "paschim kshe",
+	"Tata Power - MUMBAI":"tata power - mumbai - mumbai",
+        "Tata Power - DELHI":"tata power - delhi - delhi",
         "TP Central Odisha Distribution Ltd": "tp central",
         "Uttarakhand Power Corporation Limited": "uttarakhand",
         "WBSEDCL": "west bengal state",
-        "Tata Power - MUMBAI":"tata power - mumbai - mumbai",
-        "Tata Power - DELHI":"tata power - delhi - delhi",
         "Torrent Power - AHMEDABAD" : "Torrent Power AHMEDABAD",
         "Torrent Power - SURAT" : "Torrent Power SURAT",
         "Dakshin Haryana Bijli Vitran Nigam \(DHBVN\)":"dakshin har",
